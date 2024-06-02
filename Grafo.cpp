@@ -13,10 +13,10 @@ using namespace std;
 Grafo::Grafo(bool orientado) : orientado(orientado) {}
 
 void Grafo::adicionarAresta(const string& origem, const string& destino, int peso) {
-    listaAdjacencia[origem].emplace_back(origem, destino, peso); //adiciona uma aresta do vértice 'origem' ao vértice 'destino'
+    listaAdjacencia[origem].push_back(Aresta(origem, destino, peso)); // substituição de emplace_back por push_back
 
-    if (!orientado) { //caso o grafo não for orientado, adiciona também a aresta inversa
-        listaAdjacencia[destino].emplace_back(destino, origem, peso);
+    if (!orientado) {
+        listaAdjacencia[destino].push_back(Aresta(destino, origem, peso)); // substituição de emplace_back por push_back
     }
 }
 
@@ -133,5 +133,5 @@ void Grafo::menorCaminhoDijkstra(const string& origem, const string& destino, ma
         cout << vertice << " <- ";
     }
     cout << origem << endl;
-    cout << "*Obs: o caminho minimo esta sendo impresso do destino ate a origem (<-)" << endl;
+    cout << "*Obs: o caminho minimo esta sendo impresso do destino ate a origem (sentido <-)" << endl;
 }
