@@ -5,9 +5,7 @@
 #include "Grafo.h"
 #include <iostream>
 #include <queue>
-#include <algorithm>
 #include <climits>
-#include <set>
 
 using namespace std;
 
