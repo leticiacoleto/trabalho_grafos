@@ -3,6 +3,8 @@
 #include <iostream>
 #include <queue>
 #include <algorithm>
+#include <climits>
+#include <set>
 
 using namespace std;
 
@@ -19,7 +21,7 @@ void Grafo::adicionarAresta(const string& origem, const string& destino, int pes
 
 void Grafo::imprimirListaAdjacencia() const {
     for (const auto& vertice : listaAdjacencia) { //itera sobre todos os vértices na lista de adjacência
-        cout << vertice.first << " -> ";
+        cout << vertice.first << ": ";
         for (const auto& aresta : vertice.second) { //itera sobre todas as arestas do vértice
             cout << aresta.destino << "(" << aresta.peso << ") ";
         }
@@ -27,7 +29,7 @@ void Grafo::imprimirListaAdjacencia() const {
     }
 }
 
-void Grafo::ordenarVertices(vector<Aresta>& arestas) {
+void Grafo::ordenarVertices(vector<Aresta>& arestas) { //método que faz a ordenação dos vértices por meio do Bubble Sort
     int i, j;
     int n = arestas.size();
     for (i = 0; i < n-1; i++) {      
@@ -81,4 +83,54 @@ void Grafo::buscaEmProfundidade(const string& v) {
             buscaEmProfundidade(aresta.destino);
         }
     }
+}
+
+void Grafo::menorCaminhoDijkstra(const string& origem, const string& destino, map<string, string>& caminho, int& custo) {
+    map<string, int> distancia; //armazenar a distância mínima de cada vértice até a origem
+
+    for (const auto& par : listaAdjacencia) {
+        distancia[par.first] = INT_MAX; //inicializa as distâncias como infinito 
+        visitado[par.first] = false; //inicializa os vértices como não visitados
+    }
+    
+    distancia[origem] = 0; //distância da origem até ela mesma é 0
+
+    string verticeAtual = origem;
+    
+    while (!verticeAtual.empty()) { //enquanto houverem vértices a serem visitados
+
+        visitado[verticeAtual] = true; //marca o vértice atual como visitado
+
+        int menorDistancia = INT_MAX;
+        
+        string proximoVertice;
+
+        for (const auto& aresta : listaAdjacencia[verticeAtual]) { //percorre todas as arestas do vértice atual
+            int novaDistancia = distancia[verticeAtual] + aresta.peso; //calcula a nova distância até o destino da aresta
+   
+            if (novaDistancia < distancia[aresta.destino]) { //se a nova distância for menor que a distância atual
+                distancia[aresta.destino] = novaDistancia; 
+                caminho[aresta.destino] = verticeAtual;
+            }
+        }
+
+        for (const auto& par : distancia) { 
+            if (!visitado[par.first] && par.second < menorDistancia) { //verifica se o vértice ainda não foi visitado e se a distância é menor que a menor distância encontrada até agora
+                menorDistancia = par.second;
+                proximoVertice = par.first;
+            }
+        }
+
+        verticeAtual = proximoVertice;
+    }
+
+    custo = distancia[destino]; //atualiza o custo total do menor caminho encontrado
+    cout << "Custo total do menor caminho de '" << origem << "' para '" << destino << "': " << custo << endl;
+
+    cout << "Caminho minimo encontrado entre '" << origem << "' e '" << destino << "': ";
+    for (string vertice = destino; vertice != origem; vertice = caminho[vertice]) { //imprime o caminho mínimo encontrado do destino até a origem
+        cout << vertice << " <- ";
+    }
+    cout << origem << endl;
+    cout << "*Obs: o caminho minimo esta sendo impresso do destino ate a origem (<-)" << endl;
 }

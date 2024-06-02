@@ -17,6 +17,8 @@ public:
     void buscaEmProfundidade(const string& v);
     void buscaEmLargura(const string& v); 
     void ordenarVertices(vector<Aresta>& arestas); 
+    void menorCaminhoDijkstra(const string& origem, const string& destino, map<string, string>& caminho, int& custo);
+
 private:
     bool orientado; //variável booleana que indica se o grafo é orientado ou não
     map<string, vector<Aresta>> listaAdjacencia; //mapeia cada vértice (string) para um vetor de Arestas (struct presente no arquivo aresta.h)

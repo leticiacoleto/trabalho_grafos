@@ -3,6 +3,7 @@
 #include <fstream>
 #include <sstream>
 #include <algorithm>
+#include <locale>
 #include "Grafo.h"
 
 using namespace std;
@@ -21,7 +22,7 @@ void lerArquivoGrafo(const string& caminhoArquivo, Grafo& grafo, bool ponderado)
 
     //faz a leitura do arquivo linha a linha
     while (getline(arquivo, linha)) {
-         //divide a linha em substrings usando ';' como delimitador
+        //divide a linha em substrings usando ';' como delimitador
         istringstream iss(linha);
         getline(iss, origem, ';');
         getline(iss, destino, ';');
@@ -44,13 +45,24 @@ int main() {
     Grafo g2(true);  //grado orientado 
     Grafo g3(false); //grafo não orientado
 
+    //declarações de variáveis
+    string origem = "x";
+    string destino = "t";
+    map<string, string> caminho;
+    int custo;
+    
     //chamada da função para ler arquivos dos grafos, passando se ele possui peso ou não
     lerArquivoGrafo("grafos/g1.txt", g1, false);
     lerArquivoGrafo("grafos/g2.txt", g2, false);
     lerArquivoGrafo("grafos/g3.txt", g3, true);
 
+    cout <<"--------------------------------------------------------" << endl;
+    cout << "TRABALHO 2 - ANALISE DE ALGORITMOS" << endl;
+    cout << "Realizado por: Fernanda (2069922) e Leticia (2057336)" << endl;
+    cout <<"--------------------------------------------------------\n" << endl;
+
     //impressão das listas de adjacência dos três grafos
-    cout << "LISTAS DE ADJACÊNCIA DE CADA GRAFO" << endl;
+    cout << "1. LISTAS DE ADJACENCIA DE CADA GRAFO" << endl;
     cout << "Grafo g1:" << endl;
     g1.imprimirListaAdjacencia();
     cout << endl;
@@ -64,15 +76,18 @@ int main() {
     cout << endl;
 
     //impressão da busca por largura e por profundidade
-    cout << "BUSCA EM LARGURA" << endl;
-    cout << "Busca em Largura para G1 a partir do vértice 'b':" << endl;
+    cout << "2. BUSCA EM LARGURA" << endl;
+    cout << "Busca em Largura para G1 a partir do vertice 'b': ";
     g1.buscaEmLargura("b");
     cout << endl;
 
-    cout << "\nBUSCA EM PROFUNDIDADE" << endl;
-    cout << "Busca em Profundidade para G2 a partir do vértice 'a':" << endl;
+    cout << "\n3. BUSCA EM PROFUNDIDADE" << endl;
+    cout << "Busca em Profundidade para G2 a partir do vertice 'a': ";
     g2.buscaEmProfundidade("a");
     cout << endl;
+
+    cout << "\n4. ALGORITMO MINIMO (DIJKSTRA)" << endl;
+    g3.menorCaminhoDijkstra(origem, destino, caminho, custo);
 
     return 0;
 }
