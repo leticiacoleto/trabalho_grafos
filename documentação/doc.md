@@ -35,6 +35,7 @@ O arquivo Grafo.h define a estrutura Grafo. Ele pode ser orientado ou não, send
         * **BuscaEmLargura:** realiza a busca em largura a partir de um vértice.
         * **OrdenarVertices:** ordena os vértices do grafo para realizar as buscas corretamente.
         * **MenorCaminhoDijkstra:** realiza o algoritmo de Dijkstra para encontrar o menor caminho entre os vértices, além de mostrar seu custo.
+        * **InverterCaminho:** função que é utilizada no MenorCaminhoDijkstra, para inverter o caminho mínimo para sua exibição ser da origem ao destino.
 
 ### Arquivo Grafo.cpp
 #### Descrição
@@ -47,7 +48,8 @@ O arquivo Grafo.cpp implementa os métodos da classe Grafo (definida em Grafo.h)
 * **ImprimirListaAdjacencia:** método que percorre a lista de adjacência do grafo e imprime uma lista dos vértices que estão conectados entre si, juntamente com os pesos e conexões.
 * **BuscaEmLargura:** este método visita todos os vértices em largura, iniciando pelo vértice inicial e visitando todos os conectados a ele. Nele, é utilizado a estrutura de fila para controlar a ordem de visitação, de forma que garanta que os mais próximos sejam visitados primeiro antes de ir aos mais distantes.
 * **BuscaEmProfundidade:** método que percorre o grafo a partir de um vértice inicial de forma recursiva, visitando todos os vértices conectados a ele em profundidade.
-* **MenorCaminhoDijkstra:** método que calcula o menor caminho e o custo do mesmo com o algoritmo de Dijkstra. Ele inicializa as distâncias de todos os vértices com infinito (exceto a origem que é 0) e vai atualizando de forma iterativa as distâncias mínimas para os vértices adjacentes do vértice atual, e, após, escolhe o próximo vértice não visitado com a menor distância. Isso é feito sucessivamente até que todos os vértices tenham sido visitados. Por fim, ele imprime o menor caminho e o custo. Vale ressaltar que o menor caminho entre os vértices está sendo impresso do destino a origem (nesse sentido: <-).
+* **MenorCaminhoDijkstra:** método que calcula o menor caminho e o custo do mesmo com o algoritmo de Dijkstra. Ele inicializa as distâncias de todos os vértices com infinito (exceto a origem que é 0) e vai atualizando de forma iterativa as distâncias mínimas para os vértices adjacentes do vértice atual, e, após, escolhe o próximo vértice não visitado com a menor distância. Isso é feito sucessivamente até que todos os vértices tenham sido visitados.
+* **InverterCaminho:** função que é utilizada no método MenorCaminhoDijkstra para inverter o caminho mínimo visando apresentar o resultado da origem ao destino. Ela recebe o caminho,adiciona o destino ao final do vetor, depois percorre os predecessores do destino até a origem, armazenando em ordem inversa. Por fim, inverte a ordem dos dois vértices para apresentar o caminho mínimo corretamente.
 
 ### Arquivo main.cpp
 #### Descrição

@@ -6,6 +6,7 @@
 #include <iostream>
 #include <queue>
 #include <climits>
+#include <algorithm>
 
 using namespace std;
 
@@ -86,37 +87,47 @@ void Grafo::buscaEmProfundidade(const string& v) {
     }
 }
 
+void Grafo::inverterCaminho(const string& origem, const string& destino, const map<string, string>& caminho, vector<string>& caminhoInvertido) {
+    caminhoInvertido.push_back(destino); //adiciona o destino ao final do vetor
+
+    for (string vertice = destino; vertice != origem; vertice = caminho.at(vertice)) { //percorre o caminho mínimo e armazena os vértices em ordem inversa, para exibição
+        caminhoInvertido.push_back(caminho.at(vertice));
+    }
+
+    reverse(caminhoInvertido.begin(), caminhoInvertido.end()); //inverte a ordem dos vértices (reverse)
+}
+
 void Grafo::menorCaminhoDijkstra(const string& origem, const string& destino, map<string, string>& caminho, int& custo) {
-    map<string, int> distancia; //armazenar a distância mínima de cada vértice até a origem
+    map<string, int> distancia; // armazenar a distância mínima de cada vértice até a origem
 
     for (const auto& par : listaAdjacencia) {
-        distancia[par.first] = INT_MAX; //inicializa as distâncias como infinito 
-        visitado[par.first] = false; //inicializa os vértices como não visitados
+        distancia[par.first] = INT_MAX; // inicializa as distâncias como infinito 
+        visitado[par.first] = false; // inicializa os vértices como não visitados
     }
     
-    distancia[origem] = 0; //distância da origem até ela mesma é 0
+    distancia[origem] = 0; // distância da origem até ela mesma é 0
 
     string verticeAtual = origem;
     
-    while (!verticeAtual.empty()) { //enquanto houverem vértices a serem visitados
+    while (!verticeAtual.empty()) { // enquanto houverem vértices a serem visitados
 
-        visitado[verticeAtual] = true; //marca o vértice atual como visitado
+        visitado[verticeAtual] = true; // marca o vértice atual como visitado
 
         int menorDistancia = INT_MAX;
         
         string proximoVertice;
 
-        for (const auto& aresta : listaAdjacencia[verticeAtual]) { //percorre todas as arestas do vértice atual
-            int novaDistancia = distancia[verticeAtual] + aresta.peso; //calcula a nova distância até o destino da aresta
+        for (const auto& aresta : listaAdjacencia[verticeAtual]) { // percorre todas as arestas do vértice atual
+            int novaDistancia = distancia[verticeAtual] + aresta.peso; // calcula a nova distância até o destino da aresta
    
-            if (novaDistancia < distancia[aresta.destino]) { //se a nova distância for menor que a distância atual
+            if (novaDistancia < distancia[aresta.destino]) { // se a nova distância for menor que a distância atual
                 distancia[aresta.destino] = novaDistancia; 
                 caminho[aresta.destino] = verticeAtual;
             }
         }
 
         for (const auto& par : distancia) { 
-            if (!visitado[par.first] && par.second < menorDistancia) { //verifica se o vértice ainda não foi visitado e se a distância é menor que a menor distância encontrada até agora
+            if (!visitado[par.first] && par.second < menorDistancia) { // verifica se o vértice ainda não foi visitado e se a distância é menor que a menor distância encontrada até agora
                 menorDistancia = par.second;
                 proximoVertice = par.first;
             }
@@ -128,10 +139,16 @@ void Grafo::menorCaminhoDijkstra(const string& origem, const string& destino, ma
     custo = distancia[destino]; //atualiza o custo total do menor caminho encontrado
     cout << "Custo total do menor caminho de '" << origem << "' para '" << destino << "': " << custo << endl;
 
-    cout << "Caminho minimo encontrado entre '" << origem << "' e '" << destino << "': ";
-    for (string vertice = destino; vertice != origem; vertice = caminho[vertice]) { //imprime o caminho mínimo encontrado do destino até a origem
-        cout << vertice << " <- ";
+    vector<string> caminhoInvertido;
+    inverterCaminho(origem, destino, caminho, caminhoInvertido); //chamada da função que inverte o caminho para exibição
+
+    cout << "Caminho mínimo encontrado entre '" << origem << "' e '" << destino << "': ";
+    bool ultimoVertice = false;
+    for (const string& vertice : caminhoInvertido) {
+        if (ultimoVertice) {
+            cout << " -> ";
+        }
+        cout << vertice;
+        ultimoVertice = true;   
     }
-    cout << origem << endl;
-    cout << "*Obs: o caminho minimo esta sendo impresso do destino ate a origem (sentido <-)" << endl;
 }

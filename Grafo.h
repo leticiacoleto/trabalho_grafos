@@ -25,7 +25,8 @@ public:
 private:
     bool orientado; //variável booleana que indica se o grafo é orientado ou não
     map<string, vector<Aresta>> listaAdjacencia; //mapeia cada vértice (string) para um vetor de Arestas (struct presente no arquivo aresta.h)
-    map<string, bool> visitado; //verifica os vértices visitados  
+    map<string, bool> visitado; //verifica os vértices visitados 
+    void inverterCaminho(const string& origem, const string& destino, const map<string, string>& caminho, vector<string>& caminhoInvertido); //função usada no método menorCaminhoDijkstra
 };
 
 #endif
