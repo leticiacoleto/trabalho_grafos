@@ -1,3 +1,6 @@
+//Fernanda Bonfim Santos, código: 2069922
+//Leticia de Oliveira Coleto, código: 2057336
+
 #ifndef ARESTA_H //se ARESTA_H não estiver definido, o código abaixo será executado, caso contrário, será ignorado
 #define ARESTA_H //se ifndef for verdadeiro, ARESTA_H é definido, evitando várias inclusões do mesmo cabeçalho
 

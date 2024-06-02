@@ -1,3 +1,6 @@
+//Fernanda Bonfim Santos, código: 2069922
+//Leticia de Oliveira Coleto, código: 2057336
+
 //inclusão das bibliotecas
 #include "Grafo.h"
 #include <iostream>
