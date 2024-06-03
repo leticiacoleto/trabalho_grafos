@@ -14,10 +14,10 @@ using namespace std;
 Grafo::Grafo(bool orientado) : orientado(orientado) {}
 
 void Grafo::adicionarAresta(const string& origem, const string& destino, int peso) {
-    listaAdjacencia[origem].push_back(Aresta(origem, destino, peso)); // substituição de emplace_back por push_back
+    listaAdjacencia[origem].push_back(Aresta(origem, destino, peso));
 
     if (!orientado) {
-        listaAdjacencia[destino].push_back(Aresta(destino, origem, peso)); // substituição de emplace_back por push_back
+        listaAdjacencia[destino].push_back(Aresta(destino, origem, peso));
     }
 }
 
